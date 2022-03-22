@@ -2,8 +2,8 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Balde from './components/Balde';
-import Fruta from './components/Fruta';
+import Balde from './components/Balde/Balde';
+import Fruta from './components/Fruta/Fruta';
 import Home from './modules/Home';
 import Header from './shared/Header';
 
