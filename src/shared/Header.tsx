@@ -1,19 +1,32 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
+
+    const navLinkStyle = (props: {isActive: Boolean} ) => {
+        return {
+            fontWeight: props.isActive ? "bold" : "normal",
+            textDecoration: props.isActive ? "underline" : "none"
+        }
+    }
+
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand> <Link to="/" >Balde de frutas</Link> </Navbar.Brand>
+                    <Navbar.Brand>
+                        
+                    <NavLink to="/"  style={navLinkStyle} > Balde de fruta </NavLink>
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href=""> <Link to="/balde" >Balde</Link> </Nav.Link>
                             <Nav.Link>
-                                <Link to="/fruta" >Fruta</Link>
+                                <NavLink to="/balde" style={navLinkStyle} > Balde </NavLink>
+                                </Nav.Link>
+                            <Nav.Link>
+                                <NavLink to="/fruta" style={navLinkStyle} > Fruta </NavLink>
                             </Nav.Link>
                         </Nav>
                         <Nav>

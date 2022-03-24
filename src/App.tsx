@@ -6,6 +6,7 @@ import Balde from './components/Balde/Balde';
 import Fruta from './components/Fruta/Fruta';
 import Home from './modules/Home';
 import Header from './shared/Header';
+import NotFound from './shared/NotFound';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="balde" element={<Balde/>} />
         <Route path="fruta" element={<Fruta/>} />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
       </Container>
     </>
