@@ -15,15 +15,12 @@ const Balde = () => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
 
-    const onAddBalde = ( data: Inputs ) => {
+    const onSubmit: SubmitHandler<Inputs> = data => {
         const balde = new BaldeModel(data.nome, data.capacidadeMaxima);
         setBaldes(prevBalde => [...prevBalde, balde]);
         localStorage.setItem('baldes', JSON.stringify(baldes));
         reset();
-    }
-
-    const onSubmit: SubmitHandler<Inputs> = data => {
-        onAddBalde( data ) ;
+        console.log(data);
     };
 
     return (
@@ -68,7 +65,7 @@ const Balde = () => {
                                                     {balde.nome}
                                                 </td>
                                                 <td>
-                                                    {balde.capacidadeMaxima} fruta(s)
+                                                    {balde.capacidadeMaxima}
                                                 </td>
                                                 <td>
                                                     <Button variant="danger" type="button" >X</Button>
