@@ -1,6 +1,6 @@
 export interface IBaldeModel {
-    nome: string,
-    capacidadeMaxima: Number
+    nome?: string,
+    capacidadeMaxima?: Number
 }
 
 export class BaldeModel implements IBaldeModel {
