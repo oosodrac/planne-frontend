@@ -1,14 +1,11 @@
 export interface IBaldeModel {
-    nome?: string,
-    capacidadeMaxima?: Number
+    id: string,
+    nome: string,
+    capacidade: number
 }
 
 export class BaldeModel implements IBaldeModel {
-    nome: string;
-    capacidadeMaxima: Number;
 
-    constructor(nome: string, capacidadeMaxima: Number) {
-        this.nome = nome;
-        this.capacidadeMaxima = capacidadeMaxima;
+    constructor(public id: string, public nome: string, public capacidade: number) {
     }
 }
