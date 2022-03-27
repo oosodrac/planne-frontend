@@ -26,7 +26,7 @@ const Home = () => {
 
     return (
         <div>
-            <h1>Bem vindo ao Balde de frutas! </h1>
+            <h4 className="mb-4" > Estatistica dos baldes </h4>
                         <Table striped bordered hover size="sm">
                             <thead>
                                 <tr>
