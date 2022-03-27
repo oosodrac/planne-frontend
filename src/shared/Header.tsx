@@ -28,6 +28,9 @@ const Header = () => {
                             <Nav.Link>
                                 <NavLink to="/fruta" style={navLinkStyle} > Fruta </NavLink>
                             </Nav.Link>
+                            <Nav.Link>
+                                <NavLink to="/deposito" style={navLinkStyle} > Deposito </NavLink>
+                            </Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link href="https:www.ravunana.com">Ramiro Cardoso</Nav.Link>
