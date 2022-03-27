@@ -19,8 +19,8 @@ const updateBaldeFruta = (id:number, data: IBaldeFruta) => {
     return http.put( `${uri}/${id}`, data )
 }
 
-const removeBaldeFruta = (id:string) => {
-    return http.delete(`${uri}/${id}`);
+const removeBaldeFruta = (balde:string, fruta: string) => {
+    return http.delete(`${uri}/${balde}/${fruta}`);
 }
 
 const getResumoBaldeFruta = () => {
