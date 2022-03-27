@@ -1,29 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Row, Col, Table } from "react-bootstrap";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { FrutaModel, IFruta } from './IFruta';
+import { FrutaModel, IFruta } from './FrutaModel';
+import FrutaService from "./FrutaService";
 
 type Inputs = {
+    id?: string,
     nome: string,
     preco: number,
+    expiracao: number
 };
 
 const Fruta = () => {
 
     const [frutas, setFrutas] = useState<IFruta[]>([]);
-
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
+    const [isNew, setIsNew] = useState( true );
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<Inputs>();
 
     const onAddFruta = ( data: Inputs ) => {
-        const fruta = new FrutaModel(data.nome, data.preco );
-        setFrutas(prevFruta => [...prevFruta, fruta]);
-        localStorage.setItem('frutas', JSON.stringify(frutas));
+
+        if ( isNew ) {
+            
+        const fruta = new FrutaModel(data.nome, Number(data.preco), Number(data.expiracao) );
+        FrutaService.createFruta( fruta ).then( () => {
+            getFrutas();
+        } );
+        } else {
+            
+        const fruta = new FrutaModel(data.nome, Number(data.preco), Number(data.expiracao) );
+        FrutaService.updateFruta( Number(data.id), fruta ).then( () => {
+            getFrutas();
+        } );
+        }
+
+        setIsNew(true);
+
         reset();
     }
+
+    const getFrutas = () => {
+        FrutaService.getFrutas().then( response => {
+            setFrutas( response.data );
+
+        } );
+    }
+
+    useEffect( () => {
+        getFrutas();
+    }, [] )
 
     const onSubmit: SubmitHandler<Inputs> = data => {
         onAddFruta( data ) ;
     };
+
+    const onSelecionaFruta = (fruta: IFruta) => {
+        setValue( "id", fruta.id  );
+        setValue( "nome", fruta.nome  );
+        setValue( "preco", fruta.preco  );
+        setValue( "expiracao", fruta.expiracao  );
+        setIsNew(false);
+    }
 
     return (
         <div>
@@ -38,14 +74,20 @@ const Fruta = () => {
                             <label>Nome da fruta</label>
                         <input className="form-control w-50" placeholder="Banana" type="text" {...register("nome", {required: true} )} />
                         </div>
+
                         <div className="mt-4" >
                             <label>Preço</label>
                         <input className="form-control mb-2 w-50" placeholder="0.00" step={0.01} type="number" {...register("preco", {required: true})}  />
                         </div>
 
                         <div className="mt-4" >
+                            <label>Expiração <span >(em segundos)</span> </label>
+                        <input className="form-control mb-2 w-50" placeholder="0" step={1} type="number" {...register("expiracao", {required: true})}  />
+                        </div>
+
+                        <div className="mt-4" >
                             
-                        <Button variant="primary" type="submit" > Adicionar fruta </Button>
+                        <Button variant="success" type="submit" > Salvar </Button>
                         </div>
                         </div>
                     </form>
@@ -57,10 +99,11 @@ const Fruta = () => {
                         <Table striped bordered hover size="sm">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>#</th>
                                     <th>Nome</th>
                                     <th>Preço</th>
-                                    <th></th>
+                                    <th>Expiração (segundos)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,7 +111,8 @@ const Fruta = () => {
                                     frutas.map((fruta: IFruta, index) => {
                                         return (
                                             <tr key={index} >
-                                                <td> {index + 1} </td>
+                                            <td> <Button className="btn btn-info w-100 text-white" onClick={ () => { onSelecionaFruta(fruta) } } >Selecionar</Button> </td>
+                                                <td> {fruta.id} </td>
                                                 <td>
                                                     {fruta.nome}
                                                 </td>
@@ -76,7 +120,7 @@ const Fruta = () => {
                                                     {fruta.preco}
                                                 </td>
                                                 <td>
-                                                    <Button variant="danger" type="button" >X</Button>
+                                                    {fruta.expiracao}
                                                 </td>
                                             </tr>
                                         )
