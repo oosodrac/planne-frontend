@@ -7,7 +7,7 @@ const Home = () => {
     const [resumos, setResumos] = useState<IResumoBaldeFruta[]>([]);
 
     useEffect( () => {
-        const sse = new EventSource('http://localhost:3000/api/v1/balde-frutas/sse', { withCredentials: false });
+        const sse = new EventSource('http://localhost:8080/api/v1/balde-frutas/sse-resumo', { withCredentials: false });
 
         function getRealTimeData(data: IResumoBaldeFruta[]) {
             setResumos( data );
@@ -27,7 +27,7 @@ const Home = () => {
     return (
         <div>
             <h1>Bem vindo ao Balde de frutas! </h1>
-                        {/* <Table striped bordered hover size="sm">
+                        <Table striped bordered hover size="sm">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -56,7 +56,7 @@ const Home = () => {
                                     })
                                 }
                             </tbody>
-                        </Table> */}
+                        </Table>
         </div>
     )
 }
