@@ -79,7 +79,7 @@ const Balde = () => {
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <input className="form-control w-25" placeholder="Nome do balde" type="text" {...register("nome", {required: true} )} />
                         <input className="form-control mt-2 mb-2 w-25" placeholder="Capacidade" type="number" {...register("capacidade", {required: true})}  />
-                        <Button variant="primary" type="submit" > Adicionar balde </Button>
+                        <Button variant="success" type="submit" > Salvar </Button>
                     </form>
                 </Col>
             </Row>
