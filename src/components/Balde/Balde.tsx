@@ -1,124 +1,138 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Button, Row, Col, Table } from "react-bootstrap";
-import Home from '../../modules/Home';
-import { BaldeModel, IBaldeModel } from './BaldeModel';
+import Home from "../../modules/Home";
+import { BaldeModel, IBaldeModel } from "./BaldeModel";
 import { useForm, SubmitHandler } from "react-hook-form";
-import BaldeService from './BaldeService';
-import BaldeFrutaService from '../BaldeFruta/BaldeFrutaService';
-import { IResumoBaldeFruta } from './../BaldeFruta/ResumoBaldeFruta';
+import BaldeService from "./BaldeService";
+import BaldeFrutaService from "../BaldeFruta/BaldeFrutaService";
+import { IResumoBaldeFruta } from "./../BaldeFruta/ResumoBaldeFruta";
 
 type Inputs = {
-    nome: string,
-    capacidade: number,
+  nome: string;
+  capacidade: number;
 };
 
 const Balde = () => {
+  const [baldes, setBaldes] = useState<IBaldeModel[]>([]);
+  const [resumos, setResumos] = useState<IResumoBaldeFruta[]>([]);
 
-    const [baldes, setBaldes] = useState<IBaldeModel[]>([]);
-    const [resumos, setResumos] = useState<IResumoBaldeFruta[]>([]);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Inputs>();
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
+  const onAddBalde = (data: Inputs) => {
+    const balde = new BaldeModel("1", data.nome, Number(data.capacidade));
+    BaldeService.createBalde(balde).then(() => {
+      retrieveBaldes();
+    });
+    reset();
+  };
 
-    const onAddBalde = ( data: Inputs ) => {
-        const balde = new BaldeModel( "1", data.nome, Number(data.capacidade));
-        BaldeService.createBalde( balde ).then( () => {
+  const onRemoveBalde = (id: string, nome: string) => {
+    BaldeService.removeBalde(id).then((response) => {
+      alert(`Balde removido`);
+      console.log(response);
+      retrieveBaldes();
+    });
+  };
 
-            retrieveBaldes();
-        } );
-        reset();
-    }
-    
-    const onRemoveBalde = ( id: string, nome: string ) => {
+  useEffect(() => {
+    retrieveBaldes();
+    retrieveResumoBaldeFruta();
+  }, []);
 
-        BaldeService.removeBalde(id).then( (response) => {
-            alert( `Balde removido` );
-            console.log( response );
-            retrieveBaldes();
-        } );
-    }
+  const retrieveBaldes = () => {
+    BaldeService.getBaldes().then((response) => {
+      setBaldes(response.data);
+      console.log(baldes);
+    });
+  };
 
-    useEffect( () => {
-        retrieveBaldes();
-        retrieveResumoBaldeFruta();
-    }, [] );
+  const retrieveResumoBaldeFruta = () => {
+    BaldeFrutaService.getResumoBaldeFruta().then((response) => {
+      setResumos(response.data);
+      console.log(resumos);
+    });
+  };
 
-    const retrieveBaldes = () => {
-        BaldeService.getBaldes()
-            .then( response => {
-                setBaldes( response.data );
-                console.log( baldes );
-            } );
-    }
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    onAddBalde(data);
+  };
 
-    const retrieveResumoBaldeFruta = () => {
-        
-        BaldeFrutaService.getResumoBaldeFruta().then( response => {
-            setResumos( response.data );
-            console.log( resumos );
-        } );
-    }
-
-    const onSubmit: SubmitHandler<Inputs> = data => {
-        onAddBalde( data ) ;
-    };
-
-    return (
-        <div>
+  return (
+    <div>
+      <Row>
+        <Col>
+          <Home />
+        </Col>
+        <Col>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Row>
-                <Col>
-                    <Home />
-                </Col>
+              <Col className="col-md-4">
+                <input
+                  className="form-control"
+                  placeholder="Balde"
+                  type="text"
+                  {...register("nome", { required: true })}
+                />
+              </Col>
+              <Col className="col-md-4">
+                <input
+                  className="form-control mb-2"
+                  placeholder="Capacidade"
+                  type="number"
+                  {...register("capacidade", { required: true })}
+                />
+              </Col>
+              <Col className="col-md-4">
+                <Button variant="success" type="submit">
+                  Salvar
+                </Button>
+              </Col>
             </Row>
-            <hr />
-            <h1>Baldes</h1>
+          </form>
 
-            <Row>
-                <Col>
-                    <form onSubmit={handleSubmit(onSubmit)} >
-                        <input className="form-control w-25" placeholder="Nome do balde" type="text" {...register("nome", {required: true} )} />
-                        <input className="form-control mt-2 mb-2 w-25" placeholder="Capacidade" type="number" {...register("capacidade", {required: true})}  />
-                        <Button variant="success" type="submit" > Salvar </Button>
-                    </form>
-                </Col>
-            </Row>
-
-            <Row className="mt-4" >
-                <Col>
-                        <Table striped bordered hover size="sm">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nome</th>
-                                    <th>Capacidade máxima</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    baldes.map((balde: IBaldeModel, index) => {
-                                        return (
-                                            <tr key={index} >
-                                                <td> {balde.id} </td>
-                                                <td>
-                                                    {balde.nome}
-                                                </td>
-                                                <td>
-                                                    {balde.capacidade} fruta(s)
-                                                </td>
-                                                <td>
-                                                    <Button variant="danger" type="button" onClick={ () => { onRemoveBalde(balde.id, balde.nome) } } >X</Button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </Table>
-                </Col>
-            </Row>
-        </div>
-    )
-}
+          <Table striped bordered hover size="sm" className="mt-4">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Capacidade máxima</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {baldes.map((balde: IBaldeModel, index) => {
+                return (
+                  <tr key={index}>
+                    <td> {balde.id} </td>
+                    <td>{balde.nome}</td>
+                    <td>{balde.capacidade} fruta(s)</td>
+                    <td>
+                      <Button
+                        variant="danger"
+                        type="button"
+                        className="btn-sm"
+                        onClick={() => {
+                          onRemoveBalde(balde.id, balde.nome);
+                        }}
+                      >
+                        X
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
 export default Balde;
