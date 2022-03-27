@@ -68,7 +68,6 @@ const Balde = () => {
             <Row>
                 <Col>
                     <Home />
-                    {baldes.length}
                 </Col>
             </Row>
             <hr />
