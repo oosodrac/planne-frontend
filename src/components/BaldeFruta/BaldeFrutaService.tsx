@@ -27,11 +27,16 @@ const getResumoBaldeFruta = () => {
     return http.get( `${uri}/resumo` );
 }
 
+const getResumoBaldeFrutaByName = (nome: string) => {
+    return http.get( `${uri}/resumo/balde/${nome}` );
+}
+
 export default {
     getBaldeFruta,
     getBaldeFrutas,
     createBaldeFruta,
     updateBaldeFruta,
     removeBaldeFruta,
-    getResumoBaldeFruta
+    getResumoBaldeFruta,
+    getResumoBaldeFrutaByName
 }

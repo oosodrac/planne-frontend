@@ -32,12 +32,31 @@ const Balde = () => {
     reset();
   };
 
-  const onRemoveBalde = (id: string, nome: string) => {
+  const removeBaldeFruta = (id: string) => {
+    
     BaldeService.removeBalde(id).then((response) => {
-      alert(`Balde removido`);
-      console.log(response);
       retrieveBaldes();
     });
+  }
+
+  const onRemoveBalde = (id: string, nome: string) => {
+
+    BaldeFrutaService.getResumoBaldeFrutaByName( nome ).then( (response ) => {
+      const data: IResumoBaldeFruta = response.data;
+      if ( data ) {
+        if ( data.ocupacao > 0 ) {
+          alert( `O Balde: ${nome} contem frutas, não pode ser removido! ` );
+          return;
+        } else {
+          removeBaldeFruta(id);
+          alert( `Balde: ${nome} removido` );
+        }
+      } else {
+        removeBaldeFruta(id);
+        alert( `Balde: ${nome} removido` );
+      }
+    } );
+
   };
 
   useEffect(() => {
@@ -48,7 +67,6 @@ const Balde = () => {
   const retrieveBaldes = () => {
     BaldeService.getBaldes().then((response) => {
       setBaldes(response.data);
-      console.log(baldes);
     });
   };
 
