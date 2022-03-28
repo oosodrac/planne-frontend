@@ -12,6 +12,8 @@ import { IFruta } from '../Fruta/FrutaModel';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import Home from '../../modules/Home';
+import toast, { Toaster } from 'react-hot-toast';
+import { IResumoBaldeFruta } from './ResumoBaldeFruta';
 
 type Inputs = {
     id: string,
@@ -54,20 +56,37 @@ const Deposito = () => {
     const onRemoveDeposito = (balde: string, fruta: string) => {
         BaldeFrutaService.removeBaldeFruta(balde, fruta).then(() => {
             getDepositos();
-            alert('Fruta removida do balde');
+            toast (`Fruta: ${fruta} removida do Balde: ${balde}`);
         });
-
-        console.log('Fruta removida do balde!');
 
     }
 
-
-    const onSubmit: SubmitHandler<Inputs> = data => {
-        const balde = new BaldeFrutaModel("1", data.balde, data.fruta);
+    const addFrutaBalde = (data: Inputs) => {
+        
+        const balde = new BaldeFrutaModel( data.balde, data.fruta);
         BaldeFrutaService.createBaldeFruta(balde).then(() => {
-
+            alert(`Fruta: ${data.fruta} depositada no Balde: ${data.balde}`);
             getDepositos();
         });
+    }
+
+    const onSubmit: SubmitHandler<Inputs> = data => {
+
+        
+    BaldeFrutaService.getResumoBaldeFrutaByName( data.balde ).then( (response ) => {
+        const dataResult: IResumoBaldeFruta = response.data;
+        console.log( 'THE DATA OUT: ', dataResult );
+        if ( dataResult ) {
+            console.log( 'THE DATA IN: ', dataResult );
+          if ( dataResult.ocupacao === 100 ) {
+            alert( `O Balde: ${dataResult.balde} atingiu o seu limite máximo ` );
+            return;
+          } else if (dataResult.ocupacao < 100) {
+              addFrutaBalde(data);
+          }
+        }
+      } );
+
         reset();
     };
 
