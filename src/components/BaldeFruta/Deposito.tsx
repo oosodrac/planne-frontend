@@ -9,6 +9,9 @@ import FrutaService from '../Fruta/FrutaService';
 import BaldeService from '../Balde/BaldeService';
 import { IBaldeModel } from './../Balde/BaldeModel';
 import { IFruta } from '../Fruta/FrutaModel';
+import { Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
+import Home from '../../modules/Home';
 
 type Inputs = {
     id: string,
@@ -36,25 +39,25 @@ const Deposito = () => {
     }
 
     const getFrutas = () => {
-        FrutaService.getFrutas().then( response => {
-            setFrutas( response.data );
-        } )
+        FrutaService.getFrutas().then(response => {
+            setFrutas(response.data);
+        })
     }
 
-    
+
     const getBaldes = () => {
-        BaldeService.getBaldes().then( response => {
-            setBaldes( response.data );
-        } )
+        BaldeService.getBaldes().then(response => {
+            setBaldes(response.data);
+        })
     }
 
     const onRemoveDeposito = (balde: string, fruta: string) => {
-        BaldeFrutaService.removeBaldeFruta( balde, fruta ).then(() => {
+        BaldeFrutaService.removeBaldeFruta(balde, fruta).then(() => {
             getDepositos();
-            alert( 'Fruta removida do balde' );
+            alert('Fruta removida do balde');
         });
 
-        console.log( 'Fruta removida do balde!' );
+        console.log('Fruta removida do balde!');
 
     }
 
@@ -70,72 +73,92 @@ const Deposito = () => {
 
     return (
         <div>
-            <h1>Deposito de frutas!</h1>
 
-            <form onSubmit={handleSubmit(onSubmit)} >
+            <Row>
 
-                <div>
-                    <label>Fruta</label>
-                    <select className="form-control w-25 mt-1" {...register("fruta", { required: true })}>
-                        {
-                            frutas.map( (fruta, index: number) => {
-                                return (
-                                    <option key={fruta.id} > { fruta.nome } </option>
-                                )
-                            } )
-                        }
-                    </select>
-                </div>
+                <Col>
+                    <Home/>
+                </Col>
 
+                <Col>
 
-                <div className="mt-4" >
-                    <label>Selecione o balde</label>
-                    <select className="form-control w-25 mt-1 mb-3" {...register("balde", { required: true })}>
-                    {
-                            baldes.map( (balde, index: number) => {
-                                return (
-                                    <option key={balde.id} > { balde.nome } </option>
-                                )
-                            } )
-                        }
-                    </select>
-                </div>
+                    <h4>Deposito de frutas!</h4>
 
-                <Button variant="success" type="submit" > Depositar fruta no balde </Button>
-            </form>
+                    <form onSubmit={handleSubmit(onSubmit)} >
+                        <div className="row" >
 
-            <hr/>
+                            <div className="col-md-4" >
+                                <label>Escolhe uma fruta</label>
+                                <select className="form-control" {...register("fruta", { required: true })}>
+                                                <option></option>
+                                    {
+                                        frutas.map((fruta, index: number) => {
+                                            return (
+                                                <option key={fruta.id} > {fruta.nome} </option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                                        {errors.fruta && <span className="Error-Style" >Fruta é obrigatório</span>}
+                            </div>
 
-            <Table striped bordered hover size="sm">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Balde</th>
-                        <th>Fruta</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        depositos.map((deposito: IBaldeFruta, index) => {
-                            return (
-                                <tr key={index} >
-                                    <td> {deposito.id} </td>
-                                    <td>
-                                        {deposito.balde}
-                                    </td>
-                                    <td>
-                                        {deposito.fruta}
-                                    </td>
-                                    <td>
-                                        <button className="btn btn-danger btn-sm" onClick={() => { onRemoveDeposito(deposito.balde, deposito.fruta) }} > X </button>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
+                            <div className="col-md-4" >
+                                <label>Selecione o balde</label>
+                                <select className="form-control" {...register("balde", { required: true })}>
+                                                <option></option>
+                                    {
+                                        baldes.map((balde, index: number) => {
+                                            return (
+                                                <option key={balde.id} > {balde.nome} </option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                                        {errors.balde && <span className="Error-Style" >Balde é obrigatório</span>}
+                            </div>
+                            <div className="col-md-4 mt-4">
+
+                                <Button variant="success" type="submit" > Depositar</Button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <hr />
+
+                    <Table striped bordered hover size="sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Balde</th>
+                                <th>Fruta</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                depositos.map((deposito: IBaldeFruta, index) => {
+                                    return (
+                                        <tr key={index} >
+                                            <td> {deposito.id} </td>
+                                            <td>
+                                                {deposito.balde}
+                                            </td>
+                                            <td>
+                                                {deposito.fruta}
+                                            </td>
+                                            <td>
+                                                <button className="btn btn-danger btn-sm" onClick={() => { onRemoveDeposito(deposito.balde, deposito.fruta) }} > X </button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </Table>
+                </Col>
+
+            </Row>
+
 
         </div>
     )

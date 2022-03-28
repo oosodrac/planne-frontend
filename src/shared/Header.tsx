@@ -33,7 +33,7 @@ const Header = () => {
                             </Nav.Link>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="https:www.ravunana.com">Ramiro Cardoso</Nav.Link>
+                            <Nav.Link>Ramiro Cardoso</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

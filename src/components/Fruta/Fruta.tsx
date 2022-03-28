@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Home from "../../modules/Home";
 import { FrutaModel, IFruta } from './FrutaModel';
 import FrutaService from "./FrutaService";
+import '../../App.css';
 
 type Inputs = {
     id?: string,
@@ -62,11 +63,6 @@ const Fruta = () => {
         setIsNew(false);
     }
 
-    const errorStyle = {
-        color: "red",
-        fontSize: "8px"
-    }
-
     return (
         <div>
 
@@ -86,19 +82,19 @@ const Fruta = () => {
                                     <div className="col-md-4">
                                         <label>Nome</label>
                                         <input className="form-control" placeholder="Banana" type="text" {...register("nome", { required: true })} />
-                                        {errors.nome && <span style={ errorStyle } >Nome é obrigatório</span>}
+                                        {errors.nome && <span className="Error-Style" >Nome é obrigatório</span>}
                                     </div>
 
                                     <div className="col-md-3" >
                                         <label>Preço</label>
                                         <input className="form-control mb-2" placeholder="0.00" min={0} step={0.01} type="number" {...register("preco", { required: true })} />
-                                        {errors.preco && <span style={ errorStyle } >Preço é obrigatório</span>}
+                                        {errors.preco && <span className="Error-Style" >Preço é obrigatório</span>}
                                     </div>
 
                                     <div className="col-md-3" >
                                         <label>Expiração</label>
                                         <input className="form-control mb-2" placeholder="0" min={1} step={1} type="number" {...register("expiracao", { required: true })} />
-                                        {errors.expiracao && <span style={ errorStyle } >Expiração é obrigatório</span>}
+                                        {errors.expiracao && <span className="Error-Style" >Expiração é obrigatório</span>}
                                     </div>
 
                                     <div className="col-md-2 mt-4" >
