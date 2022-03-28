@@ -11,7 +11,6 @@ const Home = () => {
 
         function getRealTimeData(data: IResumoBaldeFruta[]) {
             setResumos( data );
-            console.log( data );
         }
 
         sse.onmessage = e => getRealTimeData( JSON.parse(e.data) );

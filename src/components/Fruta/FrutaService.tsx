@@ -19,7 +19,7 @@ const updateFruta = (id:number, data: FrutaModel) => {
     return http.put( `${uri}/${id}`, data )
 }
 
-const removeFruta = (id:string) => {
+const removeFruta = (id?:string) => {
     return http.delete(`${uri}/${id}`);
 }
 

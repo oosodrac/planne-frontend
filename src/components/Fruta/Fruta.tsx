@@ -63,6 +63,13 @@ const Fruta = () => {
         setIsNew(false);
     }
 
+    const onRemoveFruta = (fruta: IFruta) => {
+        FrutaService.removeFruta( fruta.id ).then( response => {
+            const data: IFruta = response.data;
+            alert( `Fruta: ${data.nome} removida` );
+        } )
+    }
+
     return (
         <div>
 
@@ -111,6 +118,7 @@ const Fruta = () => {
                                         <th>Nome</th>
                                         <th>Preço</th>
                                         <th>Expiração (segundos)</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -128,6 +136,7 @@ const Fruta = () => {
                                                     <td>
                                                         {fruta.expiracao}
                                                     </td>
+                                                    <td> <button className="btn btn-danger btn-sm" onClick={ () => onRemoveFruta(fruta) } >X</button> </td>
                                                 </tr>
                                             )
                                         })
