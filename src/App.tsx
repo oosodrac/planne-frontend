@@ -1,28 +1,25 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
-import { Route, Routes } from 'react-router-dom';
+import logo from './logo.svg';
 import './App.css';
-import Balde from './components/Balde/Balde';
-import Deposito from './components/BaldeFruta/Deposito';
-import Fruta from './components/Fruta/Fruta';
-import Home from './modules/Home';
-import Header from './shared/Header';
-import NotFound from './shared/NotFound';
 
 function App() {
   return (
-    <>
-    <Header/>
-      <Container className='p-4' >
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="balde" element={<Balde/>} />
-        <Route path="fruta" element={<Fruta/>} />
-        <Route path="deposito" element={<Deposito/>} />
-        <Route path="*" element={<NotFound/>} />
-      </Routes>
-      </Container>
-    </>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
