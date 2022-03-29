@@ -6,8 +6,8 @@ import Balde from './components/Balde/Balde';
 import Deposito from './components/BaldeFruta/Deposito';
 import Fruta from './components/Fruta/Fruta';
 import Home from './modules/Home';
-import Header from './shared/Header';
-import NotFound from './shared/NotFound';
+import Header from './layouts/Header';
+import NotFound from './layouts/NotFound';
 
 function App() {
   return (
