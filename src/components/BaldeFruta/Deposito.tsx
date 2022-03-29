@@ -72,18 +72,17 @@ const Deposito = () => {
 
     const onSubmit: SubmitHandler<Inputs> = data => {
 
-        
     BaldeFrutaService.getResumoBaldeFrutaByName( data.balde ).then( (response ) => {
         const dataResult: IResumoBaldeFruta = response.data;
-        console.log( 'THE DATA OUT: ', dataResult );
         if ( dataResult ) {
-            console.log( 'THE DATA IN: ', dataResult );
           if ( dataResult.ocupacao === 100 ) {
             alert( `O Balde: ${dataResult.balde} atingiu o seu limite máximo ` );
             return;
           } else if (dataResult.ocupacao < 100) {
               addFrutaBalde(data);
           }
+        } else {
+            addFrutaBalde(data);
         }
       } );
 
