@@ -12,7 +12,7 @@ import { IFruta } from '../Fruta/FrutaModel';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import Home from '../../modules/Home';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { IResumoBaldeFruta } from './ResumoBaldeFruta';
 
 type Inputs = {
