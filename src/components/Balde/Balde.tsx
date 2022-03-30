@@ -97,6 +97,7 @@ const Balde = () => {
                   type="text"
                   {...register("nome", { required: true })}
                 />
+                {errors.nome && <span className="Error-Style" >Nome é obrigatório</span>}
               </Col>
               <Col className="col-md-4">
                 <input
@@ -105,6 +106,7 @@ const Balde = () => {
                   type="number"
                   {...register("capacidade", { required: true })}
                 />
+                {errors.nome && <span className="Error-Style" >Capacidade é obrigatório</span>}
               </Col>
               <Col className="col-md-4">
                 <Button variant="success" type="submit">
