@@ -4,7 +4,8 @@ Frontend do App: Balde de frutas
 
 <br/>
 
-OBS: rodar o backend para o front consumir as api´s
+OBS1: rodar o backend para o front consumir as api´s
+OBS2: Alterar a variavel REACT_APP_BASE_URL em .env file
 
 ## Available Scripts
 
