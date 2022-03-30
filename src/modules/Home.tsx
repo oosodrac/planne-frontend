@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { IResumoBaldeFruta } from './../components/BaldeFruta/ResumoBaldeFruta';
+const { REACT_APP_BASE_URL} = process.env;
 
 const Home = () => {
 
     const [resumos, setResumos] = useState<IResumoBaldeFruta[]>([]);
 
     useEffect( () => {
-        const sse = new EventSource('http://localhost:8080/api/v1/balde-frutas/sse-resumo', { withCredentials: false });
+        const sse = new EventSource( `${REACT_APP_BASE_URL}/balde-frutas/sse-resumo`, { withCredentials: false });
 
         function getRealTimeData(data: IResumoBaldeFruta[]) {
             setResumos( data );
