@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-Frontend do App: Balde de frutas
+# Frontend do App: Balde de frutas
 
 <br/>
 
